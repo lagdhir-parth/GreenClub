@@ -1,12 +1,10 @@
 import express from "express";
 import supabase from "./config/supabase.js";
-import cookieParser from "cookie-parser";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 app.get("/test", async (req, res) => {
   const { data, error } = await supabase
@@ -26,7 +24,9 @@ import charityRoutes from "./routes/charity.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import drawRoutes from "./routes/draw.routes.js";
 import scoreRoutes from "./routes/score.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 
+app.use("/api/admin", adminRoutes);
 app.use("/api/charities", charityRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);

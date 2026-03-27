@@ -1,13 +1,15 @@
 import { Router } from "express";
 import {
   selectCharity,
-  getUserProfile,
+  getUserById,
+  subscribeUser,
 } from "../controllers/user.controller.js";
 import { verifyUser } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
 router.post("/select-charity", verifyUser, selectCharity);
-router.get("/profile", verifyUser, getUserProfile);
+router.post("/subscribe", verifyUser, subscribeUser);
+router.get("/:id", verifyUser, getUserById);
 
 export default router;

@@ -16,7 +16,7 @@ const register = asyncHandler(async (req, res) => {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    subscription_status: "inactive", // ✅ Set default subscription status
+    subscription_status: false, // ✅ Set default subscription status
   });
 
   if (error) {

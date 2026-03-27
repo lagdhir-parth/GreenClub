@@ -18,16 +18,17 @@ const verifyUser = asyncHandler(async (req, res, next) => {
 });
 
 const verifyAdmin = asyncHandler(async (req, res, next) => {
-  const { data: user, error } = await supabase.auth.getUser();
+  const userId = req.user.id;
+  const { data: user, error } = await supabase
+    .from("users")
+    .select("id, role")
+    .eq("id", userId)
+    .eq("role", "admin")
+    .single();
 
-  if (error || !user) {
+  if (error) {
     res.status(401);
-    throw new ApiError(401, "Unauthorized: User not found");
-  }
-
-  if (!user.role || user.role !== "admin") {
-    res.status(403);
-    throw new ApiError(403, "Forbidden: Admins only");
+    throw new ApiError(401, "Unauthorized: Admin access required");
   }
 
   req.user = user;
