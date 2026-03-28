@@ -1,7 +1,12 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-const requiredEnvVars = ["PORT", "SUPABASE_URL", "SUPABASE_SERVICE_KEY"];
+const requiredEnvVars = [
+  "PORT",
+  "SUPABASE_URL",
+  "SUPABASE_SERVICE_KEY",
+  "ALLOWED_ORIGINS",
+];
 
 requiredEnvVars.forEach((envVar) => {
   if (!process.env[envVar]) {
@@ -19,6 +24,7 @@ const env = {
   PORT: process.env.PORT,
   SUPABASE_URL: process.env.SUPABASE_URL,
   SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY,
+  ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS.split(","),
 };
 
 export default env;
