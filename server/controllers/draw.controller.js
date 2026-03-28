@@ -5,8 +5,8 @@ import ApiResponse from "../utils/apiResponse.js";
 import { generateDrawNumbers, countMatches } from "../utils/drawEngine.js";
 
 const runDraw = asyncHandler(async (req, res) => {
-  // const drawNumbers = generateDrawNumbers();
-  const drawNumbers = [10, 20, 30, 40, 45]; // For testing purposes
+  const drawNumbers = generateDrawNumbers();
+  // const drawNumbers = [10, 20, 30, 40, 45]; // For testing purposes
 
   if (!drawNumbers) {
     throw new ApiError(500, "Failed to generate draw numbers");
@@ -201,4 +201,16 @@ const runDraw = asyncHandler(async (req, res) => {
     }),
   );
 });
-export { runDraw };
+
+const getDrawHistory = asyncHandler(async (req, res) => {
+  const { data, error } = await supabase
+    .from("draws")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) {
+    throw new ApiError(500, error.message);
+  }
+  res.json(new ApiResponse(200, "Draw history fetched", data));
+});
+
+export { runDraw, getDrawHistory };

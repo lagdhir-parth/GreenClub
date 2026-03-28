@@ -61,4 +61,42 @@ const addScore = async (req, res) => {
   res.json(data);
 };
 
-export { addScore };
+const getMyScores = async (req, res) => {
+  const userId = req.user.id;
+
+  const { data, error } = await supabase
+    .from("scores")
+    .select("*")
+    .eq("user_id", userId)
+    .order("played_at", { ascending: true });
+
+  if (error) {
+    res.status(500);
+    throw new ApiError(500, error.message || "Failed to retrieve scores");
+  }
+
+  res.json(data);
+};
+
+// Delete a score by id (user can only delete their own score)
+const deleteScore = async (req, res) => {
+  const userId = req.user.id;
+  const { id } = req.params;
+  if (!id) {
+    res.status(400);
+    throw new ApiError(400, "Score id is required");
+  }
+  // Only delete if the score belongs to the user
+  const { error } = await supabase
+    .from("scores")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", userId);
+  if (error) {
+    res.status(500);
+    throw new ApiError(500, error.message || "Failed to delete score");
+  }
+  res.json({ success: true });
+};
+
+export { addScore, getMyScores, deleteScore };

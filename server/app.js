@@ -25,6 +25,7 @@ import userRoutes from "./routes/user.routes.js";
 import drawRoutes from "./routes/draw.routes.js";
 import scoreRoutes from "./routes/score.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
+import winningRoutes from "./routes/winning.routes.js";
 
 app.use("/api/admin", adminRoutes);
 app.use("/api/charities", charityRoutes);
@@ -32,5 +33,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/draw", drawRoutes);
 app.use("/api/scores", scoreRoutes);
+app.use("/api/winnings", winningRoutes);
 
 export default app;
